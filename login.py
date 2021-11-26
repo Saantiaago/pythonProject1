@@ -31,9 +31,9 @@ def logInForm():
         username = username_entry.get()
         password = password_entry.get()
 
-        if getLogin(username) and (getPassword(password)) and (getUserId(username) == getUserId(password)):
+        if getLogin(username) and (getPassword(password)) and (getUserIdWithLogin(username) == getUserIdWithLogin(password)):
             window.destroy()
-            mainApp(getUserId(username))
+            mainApp(getUserIdWithLogin(username))
         else:
             wrong_creds_label = Label(window, text='Wrong creds', font=font_header, justify=CENTER, **header_padding)
             wrong_creds_label['background'] = 'white'

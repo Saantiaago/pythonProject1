@@ -47,11 +47,21 @@ def getPassword(password):
 
     return ifPassword
 
-def getUserId(login):
+def getUserIdWithLogin(login):
     connection_to_db = pyodbc.connect(r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
 
     cursor.execute(f"SELECT IdUser from Users where login ='{login}'")
+    ifIdUser = cursor.fetchone().IdUser
+    connection_to_db.close()
+
+    return ifIdUser
+
+def getUserId(id):
+    connection_to_db = pyodbc.connect(r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"SELECT IdUser from Users where IdUser ='{id}'")
     ifIdUser = cursor.fetchone().IdUser
     connection_to_db.close()
 
