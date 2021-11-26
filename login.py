@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 from pyodbc import Row
 
-from mainApp import mainApp
+from mainApp import *
 from queries import *
 
 def logInForm():

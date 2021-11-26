@@ -78,9 +78,31 @@ def getMenuList():
         row = cursor.fetchone()
         if not row:
             break
-        menuName.append(row.Name)
+        menuName.append(row)
     connection_to_db.close()
     return menuName
+
+def updateDataCooks(idUser, name, dateofbirth, newPhoneNumber, newMail):
+
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"UPDATE Cooks SET Name = '{name}', DateOfBirth = '{dateofbirth}', PhoneNumber = '{newPhoneNumber}'"
+                   f", Mail = '{newMail}' where IdUser = '{idUser}' ")
+
+    connection_to_db.commit()
+
+def updateDataWaiters(idUser, name, dateofbirth, newPhoneNumber, newMail):
+
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"UPDATE Waiters SET Name = '{name}', DateOfBirth = '{dateofbirth}', PhoneNumber = '{newPhoneNumber}'"
+                   f", Mail = '{newMail}' where IdUser = '{idUser}' ")
+
+    connection_to_db.commit()
 
 
 

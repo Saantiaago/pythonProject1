@@ -1,12 +1,15 @@
-from tkinter.ttk import Combobox
 from tkinter import *
 
+import changeData
 from queries import *
+
+import login
+import menu
 
 def mainApp(EntryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('800x500')
+    window.geometry('300x300')
     window.resizable(False, False)
     window['background'] = 'white'
     flagId = FALSE
@@ -46,8 +49,8 @@ def mainApp(EntryUserId):
             idFlag = cursor2.fetchone().IdCook
             flag = TRUE
 
-            creds_label = Label(window, text=' Cook!', font=font_header, justify=CENTER, **header_padding)
-            creds_label.grid(column=2, row=1)
+            creds_label = Label(window, text='Welcome, Cook!', font=font_header, justify=CENTER, **header_padding)
+            creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
         connection_to_db = pyodbc.connect(
@@ -66,8 +69,8 @@ def mainApp(EntryUserId):
             idFlag = cursor1.fetchone().IdWaiter
             flag = FALSE
 
-            creds_label = Label(window, text=' Waiter!', font=font_header, justify=CENTER, **header_padding)
-            creds_label.grid(column=2, row=1)
+            creds_label = Label(window, text='Welcome, Waiter!', font=font_header, justify=CENTER, **header_padding)
+            creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
         return flag
@@ -90,42 +93,32 @@ def mainApp(EntryUserId):
     flagId = getTypeOfUser(EntryUserId)
     tired = EntryUserId
 
-    def clicked():
+    def clickedMenu():
         window.destroy()
-        menu(getUserId(tired))
+        menu.menu(getUserId(tired))
 
-    if flagId == TRUE:
-        menu_btn = Button(window, text='Check menu', command=clicked, font=button_font, foreground='green')
-        menu_btn.grid(column=4, row=3)
+    def clickedLogout():
+        window.destroy()
+        login.logInForm()
 
-    window.mainloop()
+    def clickedChangeData():
+        window.destroy()
+        changeData.changeData(getUserId(tired), flagId)
 
 
 
+    lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='green')
+    lo_btn.grid(column=1, row=3)
 
-def menu(EntryUserId):
-    window = Tk()
-    window.title('Menu')
-    window.geometry('450x250')
-    window.resizable(False, False)
-    window['background'] = 'white'
+    menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='green')
+    menu_btn.grid(column=2, row=3)
 
-    font_header = ('Times New Roman', 15, 'bold')
-    font_entry = ('Times New Roman', 12)
-    label_font = ('Times New Roman', 11)
-    button_font = ('Times New Roman', 10)
-    base_padding = {'padx': 10, 'pady': 8}
-    header_padding = {'padx': 10, 'pady': 12}
+    change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='green')
+    change_data_btn.grid(column=3, row=3)
 
-    tired = EntryUserId
 
-    getMenuList()
-
-    def clickedBack():
-            window.destroy()
-            mainApp(getUserId(tired))
-
-    menu_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='green')
-    menu_btn.grid(column=4, row=3)
 
     window.mainloop()
+
+
+
