@@ -104,5 +104,32 @@ def updateDataWaiters(idUser, name, dateofbirth, newPhoneNumber, newMail):
 
     connection_to_db.commit()
 
+def getOrder(idOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+                   f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+                   f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+                   f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+                   f"Menu.IdDish and WorkOrder.IdOrder ='{idOrder}'")
+    ifOrder = cursor.fetchone()
+    connection_to_db.close()
+
+    return ifOrder
+
+def getOrderId(idOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    cursor.execute(f"SELECT WorkOrder.IdOrder from WorkOrder where WorkOrder.IdOrder ='{idOrder}'")
+    ifIdOrder = cursor.fetchone().IdOrder
+    connection_to_db.close()
+
+    return ifIdOrder
+
+
+
 
 

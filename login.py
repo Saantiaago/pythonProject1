@@ -9,7 +9,7 @@ from queries import *
 def logInForm():
     window = Tk()
     window.title('Auth')
-    window.geometry('450x250')
+    window.geometry('350x250')
     window.resizable(False, False)
     window['background'] = 'white'
 

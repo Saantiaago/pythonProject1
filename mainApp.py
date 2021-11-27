@@ -5,13 +5,15 @@ from queries import *
 
 import login
 import menu
+import order
+import orderChoose
 
 def mainApp(EntryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('300x300')
+    window.geometry('320x200')
     window.resizable(False, False)
-    window['background'] = 'white'
+    window['background'] = 'light pink'
     flagId = FALSE
 
     print(EntryUserId, "    ?")
@@ -49,7 +51,7 @@ def mainApp(EntryUserId):
             idFlag = cursor2.fetchone().IdCook
             flag = TRUE
 
-            creds_label = Label(window, text='Welcome, Cook!', font=font_header, justify=CENTER, **header_padding)
+            creds_label = Label(window, text='Welcome, Cook!', font=font_header, justify=CENTER, **header_padding, background = "light pink", foreground = "dark blue")
             creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
@@ -69,7 +71,7 @@ def mainApp(EntryUserId):
             idFlag = cursor1.fetchone().IdWaiter
             flag = FALSE
 
-            creds_label = Label(window, text='Welcome, Waiter!', font=font_header, justify=CENTER, **header_padding)
+            creds_label = Label(window, text='Welcome, Waiter!', font=font_header, justify=CENTER, **header_padding, background = "light pink", foreground = "light blue")
             creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
@@ -105,18 +107,21 @@ def mainApp(EntryUserId):
         window.destroy()
         changeData.changeData(getUserId(tired), flagId)
 
+    def clickedOrderChoose():
+        window.destroy()
+        orderChoose.orderChoose(getUserId(tired))
 
-
-    lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='green')
+    lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
     lo_btn.grid(column=1, row=3)
 
-    menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='green')
+    menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
     menu_btn.grid(column=2, row=3)
 
-    change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='green')
+    change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='blue')
     change_data_btn.grid(column=3, row=3)
 
-
+    order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
+    order_btn.grid(column=1, row=4)
 
     window.mainloop()
 
