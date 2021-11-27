@@ -119,7 +119,7 @@ INSERT INTO ProductList (IdProduct, Name, Description)
 	VALUES (@IdProduct, @nameOfProduct, @Description);
 
 --19. Добавление блюда в заказ
-declare @IdOrderDescription as int='3';
+declare @IdOrderDescription as int='4';
 declare @OrderId as varchar(50)='1';
 declare @AmountOfDish as int='2';
 declare @Status as bit='false';

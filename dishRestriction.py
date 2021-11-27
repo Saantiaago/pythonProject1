@@ -36,7 +36,7 @@ def dishRestriction(EntryUserId):
     menu_btn = Button(window, text='enter', command=clickedBack, font=button_font, foreground='green')
     menu_btn.grid(column=4, row=3)
 
-    dish_label = Label(window, text='Id of dish', font=label_font, **base_padding)
+    dish_label = Label(window, text='Name of dish', font=label_font, **base_padding)
     dish_label['background'] = 'white'
     dish_label.grid(column=4, row=4)
 

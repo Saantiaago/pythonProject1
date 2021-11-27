@@ -8,16 +8,18 @@ import menu
 import order
 import orderChoose
 import dishRestriction
+import addDishInOrder
 
-def mainApp(EntryUserId):
+
+def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('320x200')
+    window.geometry('340x200')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
 
-    print(EntryUserId, "    ?")
+    print(entryUserId, "    ?")
 
     font_header = ('Times New Roman', 15, 'bold')
     font_entry = ('Times New Roman', 12)
@@ -52,7 +54,8 @@ def mainApp(EntryUserId):
             idFlag = cursor2.fetchone().IdCook
             flag = TRUE
 
-            creds_label = Label(window, text='Welcome, Cook!', font=font_header, justify=CENTER, **header_padding, background = "light pink", foreground = "dark blue")
+            creds_label = Label(window, text='Welcome, Cook!', font=font_header, justify=CENTER, **header_padding,
+                                background="light pink", foreground="dark blue")
             creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
@@ -72,11 +75,23 @@ def mainApp(EntryUserId):
             idFlag = cursor1.fetchone().IdWaiter
             flag = FALSE
 
-            creds_label = Label(window, text='Welcome, Waiter!', font=font_header, justify=CENTER, **header_padding, background = "light pink", foreground = "light blue")
+            creds_label = Label(window, text='Welcome, Waiter!', font=font_header, justify=CENTER, **header_padding,
+                                background="light pink", foreground="dark blue")
             creds_label.grid(column=2, row=2)
 
         connection_to_db.close()
         return flag
+
+    flagId = FALSE
+
+    def checkForDirector(idUser):
+        directorMode = FALSE
+        if (getUserId(idUser) == 5):
+            directorMode = TRUE
+            creds_label = Label(window, text='Welcome, Director!', font=font_header, justify=CENTER, **header_padding,
+                                background="light pink", foreground="dark blue")
+            creds_label.grid(column=2, row=2)
+        return directorMode
 
     # comboCooks = Combobox(window)
     # comboCooks['state'] = 'readonly'
@@ -93,8 +108,8 @@ def mainApp(EntryUserId):
     # comboCooks.bind('<<ComboboxSelected>>', cookChosen)
     # comboWaiters.bind('<<ComboboxSelected>>', waiterChosen)
 
-    flagId = getTypeOfUser(EntryUserId)
-    tired = EntryUserId
+    flagId = getTypeOfUser(entryUserId)
+    tired = entryUserId
 
     def clickedMenu():
         window.destroy()
@@ -116,22 +131,48 @@ def mainApp(EntryUserId):
         window.destroy()
         dishRestriction.dishRestriction(getUserId(tired))
 
-    lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
-    lo_btn.grid(column=1, row=3)
+    def clickedAddDishInOrder():
+        window.destroy()
+        addDishInOrder.addDishInOrder(getUserId(tired))
 
-    menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
-    menu_btn.grid(column=2, row=3)
+    directorMode = checkForDirector(entryUserId)
 
-    change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='blue')
-    change_data_btn.grid(column=3, row=3)
+    print(entryUserId, '    eto id')
+    print(directorMode, '    eto mode')
 
-    order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
-    order_btn.grid(column=1, row=4)
+    if (directorMode == TRUE):
+        change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font,
+                                 foreground='blue')
+        change_data_btn.grid(column=3, row=3)
 
-    dishr_btn = Button(window, text='Update dish', command=clickedDishRestriction, font=button_font, foreground='blue')
-    dishr_btn.grid(column=2, row=4)
+    # cook
+    if (flagId == TRUE):
+        menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
+        menu_btn.grid(column=2, row=3)
+
+        order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
+        order_btn.grid(column=1, row=4)
+
+        lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
+        lo_btn.grid(column=1, row=3)
+
+    # waiter
+    if (flagId == FALSE):
+        menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
+        menu_btn.grid(column=2, row=3)
+
+        order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
+        order_btn.grid(column=1, row=4)
+
+        dishr_btn = Button(window, text='Update dish', command=clickedDishRestriction, font=button_font,
+                           foreground='blue')
+        dishr_btn.grid(column=2, row=4)
+
+        lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
+        lo_btn.grid(column=1, row=3)
+
+        dishr_btn = Button(window, text='Add dish in order', command=clickedAddDishInOrder, font=button_font,
+                           foreground='blue')
+        dishr_btn.grid(column=3, row=4)
 
     window.mainloop()
-
-
-

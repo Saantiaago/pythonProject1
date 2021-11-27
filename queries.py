@@ -139,15 +139,34 @@ def getIdDish(idDish):
 
     return ifIdDish
 
-def updateDishStatus(idDish, status):
+def getIdDishWithName(Name):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    cursor.execute(f"SELECT Menu.IdDish from Menu where Menu.Name ='{Name}'")
+    ifIdDish = cursor.fetchone().IdDish
+    connection_to_db.close()
+
+    return ifIdDish
+
+def updateDishStatus(Name, status):
     connection_to_db = pyodbc.connect(
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
 
-    cursor.execute(f"Update Menu Set Status = '{status}' Where IdDish = '{idDish}'")
+    cursor.execute(f"Update Menu Set Status = '{status}' Where Name = '{Name}'")
 
     connection_to_db.commit()
 
+
+def insertDishInOrder(idOrderDescription, orderId, amountOfDish, status, idDish, idCook):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"INSERT INTO OrderDescription (IdOrderDescription, OrderId, AmountOfDish, Status, IdDish, IdCook) VALUES ('{idOrderDescription}', '{orderId}', '{amountOfDish}', '{status}', '{idDish}', '{idCook}');")
+
+    connection_to_db.commit()
 
 
 
