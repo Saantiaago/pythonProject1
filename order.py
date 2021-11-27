@@ -26,7 +26,6 @@ def order(EntryUserId, idOrder):
     order = getOrder(idOrder)
 
     def clickedBack():
-
             window.destroy()
             mainApp.mainApp(getUserId(tired))
 

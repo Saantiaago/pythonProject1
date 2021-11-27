@@ -9,12 +9,16 @@ import order
 import orderChoose
 import dishRestriction
 import addDishInOrder
+import addCook
+import addWaiter
+import setCookActivity
+import setWaiterActivity
 
 
 def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('340x200')
+    window.geometry('370x200')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
@@ -135,18 +139,34 @@ def mainApp(entryUserId):
         window.destroy()
         addDishInOrder.addDishInOrder(getUserId(tired))
 
+    def clickedAddCook():
+        window.destroy()
+        addCook.addCook(getUserId(tired))
+
+    def clickedAddWaiter():
+        window.destroy()
+        addWaiter.addWaiter(getUserId(tired))
+
+    def clickedSetCookActivity():
+        window.destroy()
+        setCookActivity.setCookActivity(getUserId(tired))
+
+    def clickedSetWaiterActivity():
+        window.destroy()
+        setWaiterActivity.setWaiterActivity()
+
     directorMode = checkForDirector(entryUserId)
 
     print(entryUserId, '    eto id')
     print(directorMode, '    eto mode')
 
     if (directorMode == TRUE):
-        change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font,
-                                 foreground='blue')
+        change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='blue')
         change_data_btn.grid(column=3, row=3)
 
-    # cook
-    if (flagId == TRUE):
+        addcook_btn = Button(window, text='Add cook', command=clickedAddCook, font=button_font, foreground='blue')
+        addcook_btn.grid(column=2, row=4)
+
         menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
         menu_btn.grid(column=2, row=3)
 
@@ -156,23 +176,47 @@ def mainApp(entryUserId):
         lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
         lo_btn.grid(column=1, row=3)
 
-    # waiter
-    if (flagId == FALSE):
-        menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
-        menu_btn.grid(column=2, row=3)
+        addwaiter_btn = Button(window, text='Add waiter', command=clickedAddWaiter, font=button_font, foreground='blue')
+        addwaiter_btn.grid(column=3, row=4)
 
-        order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
-        order_btn.grid(column=1, row=4)
+        setcookstatus_btn = Button(window, text='SetCookStatus', command=clickedSetCookActivity, font=button_font, foreground='blue')
+        setcookstatus_btn.grid(column=2, row=5)
 
-        dishr_btn = Button(window, text='Update dish', command=clickedDishRestriction, font=button_font,
+        setwaiter_btn = Button(window, text='SetWaiterStatus', command=clickedSetWaiterActivity, font=button_font,
+                                   foreground='blue')
+        setwaiter_btn.grid(column=3, row=5)
+
+
+
+    if (directorMode == FALSE):
+        # cook
+        if (flagId == TRUE):
+            menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
+            menu_btn.grid(column=2, row=3)
+
+            order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
+            order_btn.grid(column=3, row=3)
+
+            lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
+            lo_btn.grid(column=1, row=3)
+
+        # waiter
+        if (flagId == FALSE):
+            menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
+            menu_btn.grid(column=2, row=3)
+
+            order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
+            order_btn.grid(column=1, row=4)
+
+            dishr_btn = Button(window, text='Update dish', command=clickedDishRestriction, font=button_font,
                            foreground='blue')
-        dishr_btn.grid(column=2, row=4)
+            dishr_btn.grid(column=2, row=4)
 
-        lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
-        lo_btn.grid(column=1, row=3)
+            lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
+            lo_btn.grid(column=1, row=3)
 
-        dishr_btn = Button(window, text='Add dish in order', command=clickedAddDishInOrder, font=button_font,
+            dishr_btn = Button(window, text='Add dish in order', command=clickedAddDishInOrder, font=button_font,
                            foreground='blue')
-        dishr_btn.grid(column=3, row=4)
+            dishr_btn.grid(column=3, row=3)
 
     window.mainloop()

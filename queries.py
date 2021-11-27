@@ -168,5 +168,48 @@ def insertDishInOrder(idOrderDescription, orderId, amountOfDish, status, idDish,
 
     connection_to_db.commit()
 
+def registerCook(IdUser, login, password, IdCook, name, dateOfBirth, phoneNumber, mail, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"	INSERT INTO Users (IdUser, login, password) VALUES ('{IdUser}', '{login}', '{password}') "
+        f"INSERT INTO Cooks(IdCook, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
+        f"VALUES ('{IdCook}', '{IdUser}', '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}');")
+
+    connection_to_db.commit()
+
+def registerWaiter(IdUser, login, password, IdCook, name, dateOfBirth, phoneNumber, mail, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"	INSERT INTO Users (IdUser, login, password) VALUES ('{IdUser}', '{login}', '{password}') "
+        f"INSERT INTO Waiters(IdWaiter, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
+        f"VALUES ('{IdCook}', '{IdUser}', '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}');")
+
+    connection_to_db.commit()
+
+def setCookStatus(idUser, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"UPDATE Cooks SET status = '{status}' where IdUser = '{idUser}' ")
+
+    connection_to_db.commit()
+
+def setWaiterStatus(idUser, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"UPDATE Waiters SET status = '{status}' where IdUser = '{idUser}' ")
+
+    connection_to_db.commit()
 
 
