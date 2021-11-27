@@ -129,6 +129,24 @@ def getOrderId(idOrder):
 
     return ifIdOrder
 
+def getIdDish(idDish):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    cursor.execute(f"SELECT Menu.IdDish from Menu where Menu.IdDish ='{idDish}'")
+    ifIdDish = cursor.fetchone().IdDish
+    connection_to_db.close()
+
+    return ifIdDish
+
+def updateDishStatus(idDish, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"Update Menu Set Status = '{status}' Where IdDish = '{idDish}'")
+
+    connection_to_db.commit()
 
 
 

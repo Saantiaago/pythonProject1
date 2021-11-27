@@ -7,6 +7,7 @@ import login
 import menu
 import order
 import orderChoose
+import dishRestriction
 
 def mainApp(EntryUserId):
     window = Tk()
@@ -111,6 +112,10 @@ def mainApp(EntryUserId):
         window.destroy()
         orderChoose.orderChoose(getUserId(tired))
 
+    def clickedDishRestriction():
+        window.destroy()
+        dishRestriction.dishRestriction(getUserId(tired))
+
     lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
     lo_btn.grid(column=1, row=3)
 
@@ -122,6 +127,9 @@ def mainApp(EntryUserId):
 
     order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
     order_btn.grid(column=1, row=4)
+
+    dishr_btn = Button(window, text='Update dish', command=clickedDishRestriction, font=button_font, foreground='blue')
+    dishr_btn.grid(column=2, row=4)
 
     window.mainloop()
 
