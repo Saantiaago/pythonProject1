@@ -368,3 +368,63 @@ def deleteDishFromMenu(idDish):
         f"Update OrderDescription Set OrderDescription.IdDish = 100 where OrderDescription.IdDish = '{idDish}' delete from Menu where IdDish = '{idDish}'")
 
     connection_to_db.commit()
+
+def getProductListName():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"SELECT Name, Description from ProductList")
+
+    productName = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        productName.append(row.Name)
+    connection_to_db.close()
+    return productName
+
+
+def getProductListDescription():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"SELECT Name, Description from ProductList")
+
+    productDescription = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        productDescription.append(row.Description)
+    connection_to_db.close()
+    return productDescription
+
+
+def getProductListPrice():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"SELECT Name, Description from ProductList")
+
+    productPrice = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        productPrice.append(row.Price)
+    connection_to_db.close()
+    return productPrice
+
+def setDishOrderStatus(idOrderDescription, status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"UPDATE OrderDescription SET status = '{status}' where IdOrderDescription = '{idOrderDescription}' ")
+
+    connection_to_db.commit()

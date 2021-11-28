@@ -7,9 +7,9 @@ import mainApp
 from queries import *
 
 
-def menu(EntryUserId):
+def productList(EntryUserId):
     window = Tk()
-    window.title('Menu')
+    window.title('productList')
     window.geometry('280x500')
     window.resizable(False, False)
     window['background'] = 'light pink'
@@ -23,9 +23,8 @@ def menu(EntryUserId):
 
     tired = EntryUserId
 
-    nameList = getMenuListName()
-    descriptionList = getMenuListDescription()
-    priceList = getMenuListPrice()
+    nameList = getProductListName()
+    descriptionList = getProductListDescription()
     rowCount = 4
 
 
@@ -39,8 +38,7 @@ def menu(EntryUserId):
     mainname_label.grid(column=5, row=3)
     maindesc_label = Label(window, text='Description', font=font_header, justify=CENTER, **header_padding, foreground='dark blue', background="light pink")
     maindesc_label.grid(column=6, row=3)
-    mainprice_label = Label(window, text='Price', font=font_header, justify=CENTER, **header_padding, foreground='dark blue', background="light pink")
-    mainprice_label.grid(column=7, row=3)
+
 
 
     for i  in range(getAmountOfMenu()):
@@ -48,8 +46,7 @@ def menu(EntryUserId):
         name_label.grid(column=5, row=rowCount)
         description_label = Label(window, text=descriptionList[i], font=font_header, justify=CENTER, **header_padding, foreground='dark blue', background="light pink")
         description_label.grid(column=6, row=rowCount)
-        price_label = Label(window, text=priceList[i], font=font_header, justify=CENTER, **header_padding, foreground='dark blue', background="light pink")
-        price_label.grid(column=7, row=rowCount)
+
         rowCount += 1
 
     window.mainloop()

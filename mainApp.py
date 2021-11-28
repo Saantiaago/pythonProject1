@@ -16,6 +16,8 @@ import setWaiterActivity
 import changeDish
 import addDishInMenu
 import deleteDish
+import productList
+import setDishOrderStatuss
 
 
 def mainApp(entryUserId):
@@ -102,7 +104,7 @@ def mainApp(entryUserId):
             creds_label.grid(column=2, row=2)
             low_label = Label(window, text='---', font=font_header,  **header_padding,
                                 background="light pink", foreground="dark blue")
-            low_label.grid(column=2, row=9)
+            low_label.grid(column=2, row=10)
         return directorMode
 
     # comboCooks = Combobox(window)
@@ -175,6 +177,13 @@ def mainApp(entryUserId):
         window.destroy()
         deleteDish.deleteDish(getUserId(tired))
 
+    def clickedProduct():
+        window.destroy()
+        productList.productList(getUserId(tired))
+
+    def clickedDishOrderStatus():
+        window.destroy()
+        setDishOrderStatuss.setDishOrderStatuss(getUserId(tired))
 
     directorMode = checkForDirector(entryUserId)
 
@@ -211,7 +220,7 @@ def mainApp(entryUserId):
         order_btn.grid(column=2, row=4)
 
         lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
-        lo_btn.grid(column=2, row=10)
+        lo_btn.grid(column=2, row=11)
 
         addwaiter_btn = Button(window, text='Add waiter', command=clickedAddWaiter, font=button_font, foreground='blue')
         addwaiter_btn.grid(column=3, row=4)
@@ -235,6 +244,10 @@ def mainApp(entryUserId):
                              foreground='blue')
         deletedish_btn.grid(column=2, row=6)
 
+        deletedish_btn = Button(window, text='Check products', command=clickedProduct, font=button_font,
+                                foreground='blue')
+        deletedish_btn.grid(column=2, row=9)
+
 
     if (directorMode == FALSE):
         # cook
@@ -247,6 +260,13 @@ def mainApp(entryUserId):
 
             lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
             lo_btn.grid(column=1, row=3)
+
+            od_btn = Button(window, text='Set orderdesc status', command=clickedDishOrderStatus, font=button_font, foreground='blue')
+            od_btn.grid(column=1, row=4)
+
+            deletedish_btn = Button(window, text='Check products', command=clickedProduct, font=button_font,
+                                    foreground='blue')
+            deletedish_btn.grid(column=2, row=4)
 
         # waiter
         if (flagId == FALSE):
