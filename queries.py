@@ -212,4 +212,21 @@ def setWaiterStatus(idUser, status):
 
     connection_to_db.commit()
 
+def updateDishDescription(Name, Description, Price):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
 
+    cursor.execute(f"Update Menu Set Name = '{Name}', Description = '{Description}', Price = '{Price}' Where Name = '{Name}'")
+
+    connection_to_db.commit()
+
+def setDishInMenu(IdDish, Name, Description, Price, Status):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"INSERT INTO Menu (IdDish, Name, Description, Price, Status) VALUES ('{IdDish}', '{Name}', '{Description}', '{Price}', '{Status}')")
+
+    connection_to_db.commit()

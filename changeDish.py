@@ -6,11 +6,10 @@ from pyodbc import Row
 import mainApp
 from queries import *
 
-
-def addDishInMenu(EntryUserId):
+def updateDish(EntryUserId):
     window = Tk()
-    window.title('dishRestriction')
-    window.geometry('170x500')
+    window.title('changeData')
+    window.geometry('200x320')
     window.resizable(False, False)
     window['background'] = 'white'
 
@@ -21,27 +20,15 @@ def addDishInMenu(EntryUserId):
     base_padding = {'padx': 10, 'pady': 8}
     header_padding = {'padx': 10, 'pady': 12}
 
-    tired = EntryUserId
-
-
     def clickedEnter():
-        idDish = iddish_entry.get()
         name = name_entry.get()
-        status = status_entry.get()
         description = description_entry.get()
         price = price_entry.get()
 
-        setDishInMenu(idDish, name, description, price, status)
+        updateDishDescription(name, description, price)
         window.destroy()
-        mainApp.mainApp(getUserId(tired))
+        mainApp.mainApp(getUserId(EntryUserId))
 
-    iddish_label = Label(window, text='Id of dish', font=label_font, **base_padding)
-    iddish_label['background'] = 'white'
-    iddish_label.pack()
-
-    # поле ввода name
-    iddish_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    iddish_entry.pack()
 
     name_label = Label(window, text='Name', font=label_font, **base_padding)
     name_label['background'] = 'white'
@@ -66,14 +53,6 @@ def addDishInMenu(EntryUserId):
     # поле ввода price
     price_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     price_entry.pack()
-
-    status_label = Label(window, text='Status', font=label_font, **base_padding)
-    status_label['background'] = 'white'
-    status_label.pack()
-
-    # поле ввода status
-    status_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    status_entry.pack()
 
     # кнопка отправки формы
     send_btn = Button(window, text='Enter', command=clickedEnter, font=button_font, foreground='green')

@@ -13,12 +13,14 @@ import addCook
 import addWaiter
 import setCookActivity
 import setWaiterActivity
+import changeDish
+import addDishInMenu
 
 
 def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('370x200')
+    window.geometry('370x400')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
@@ -153,7 +155,16 @@ def mainApp(entryUserId):
 
     def clickedSetWaiterActivity():
         window.destroy()
-        setWaiterActivity.setWaiterActivity()
+        setWaiterActivity.setWaiterActivity(getUserId(tired))
+
+    def clickedUpdateDish():
+        window.destroy()
+        changeDish.updateDish(getUserId(tired))
+
+    def clickedAddDishInMenu():
+        window.destroy()
+        addDishInMenu.addDishInMenu(getUserId(tired))
+
 
     directorMode = checkForDirector(entryUserId)
 
@@ -185,6 +196,14 @@ def mainApp(entryUserId):
         setwaiter_btn = Button(window, text='SetWaiterStatus', command=clickedSetWaiterActivity, font=button_font,
                                    foreground='blue')
         setwaiter_btn.grid(column=3, row=5)
+
+        updatedish_btn = Button(window, text='Update dish', command=clickedUpdateDish, font=button_font,
+                                   foreground='blue')
+        updatedish_btn.grid(column=1, row=6)
+
+        adddish_btn = Button(window, text='Add dish', command=clickedAddDishInMenu, font=button_font,
+                                foreground='blue')
+        adddish_btn.grid(column=1, row=5)
 
 
 
