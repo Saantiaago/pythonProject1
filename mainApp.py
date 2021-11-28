@@ -18,12 +18,12 @@ import addDishInMenu
 import deleteDish
 import productList
 import setDishOrderStatuss
-
+import addAmountProduct
 
 def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('400x400')
+    window.geometry('600x600')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
@@ -125,6 +125,12 @@ def mainApp(entryUserId):
     flagId = getTypeOfUser(entryUserId)
     tired = entryUserId
 
+    def getTotalPrice(idOrder):
+        getTotalSum(idOrder)
+
+
+
+
     def clickedMenu():
         window.destroy()
         menu.menu(getUserId(tired))
@@ -184,6 +190,14 @@ def mainApp(entryUserId):
     def clickedDishOrderStatus():
         window.destroy()
         setDishOrderStatuss.setDishOrderStatuss(getUserId(tired))
+
+    def clickedAddAmountProduct():
+        window.destroy()
+        addAmountProduct.addAmountProduct(getUserId(tired))
+
+    def clickedGetTotal():
+        idOrder = IdOrder_entry.get()
+        getTotalPrice(idOrder)
 
     directorMode = checkForDirector(entryUserId)
 
@@ -264,14 +278,21 @@ def mainApp(entryUserId):
             od_btn = Button(window, text='Set orderdesc status', command=clickedDishOrderStatus, font=button_font, foreground='blue')
             od_btn.grid(column=1, row=4)
 
-            deletedish_btn = Button(window, text='Check products', command=clickedProduct, font=button_font,
+            products_btn = Button(window, text='Check products', command=clickedProduct, font=button_font,
                                     foreground='blue')
-            deletedish_btn.grid(column=2, row=4)
+            products_btn.grid(column=2, row=4)
+
+            deletedish_btn = Button(window, text='add Amount', command=clickedAddAmountProduct, font=button_font,
+                                    foreground='blue')
+            deletedish_btn.grid(column=3, row=4)
 
         # waiter
         if (flagId == FALSE):
             menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
             menu_btn.grid(column=2, row=3)
+
+            add_btn = Button(window, text='Add dish in order', command=clickedAddDishInOrder, font=button_font, foreground='blue')
+            add_btn.grid(column=3, row=3)
 
             order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
             order_btn.grid(column=1, row=4)
@@ -283,8 +304,15 @@ def mainApp(entryUserId):
             lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
             lo_btn.grid(column=1, row=3)
 
-            dishr_btn = Button(window, text='Add dish in order', command=clickedAddDishInOrder, font=button_font,
-                           foreground='blue')
-            dishr_btn.grid(column=3, row=3)
+            cook_label = Label(window, text='Enter Order to sum', font=label_font, justify=LEFT, **header_padding,
+                               background="light pink", foreground="dark red")
+            cook_label.grid(column=3, row=4)
+
+            IdOrder_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
+            IdOrder_entry.grid(column=3, row=5)
+
+            entrr_btn = Button(window, text='Enter', command=clickedGetTotal, font=button_font, foreground='green')
+            entrr_btn.grid(column=3, row=6)
+
 
     window.mainloop()

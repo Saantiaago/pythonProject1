@@ -9,7 +9,7 @@ from queries import *
 def changeData(EntryUserId, flagId):
     window = Tk()
     window.title('changeData')
-    window.geometry('200x320')
+    window.geometry('200x370')
     window.resizable(False, False)
     window['background'] = 'white'
 
@@ -25,13 +25,21 @@ def changeData(EntryUserId, flagId):
         datebday = datebday_entry.get()
         phone = phone_entry.get()
         mail = mail_entry.get()
+        userId = userid_entry.get()
         if (flagId == TRUE):
-            updateDataCooks(getUserId(EntryUserId), name, datebday, phone, mail)
+            updateDataCooks(userId, name, datebday, phone, mail)
         else:
-            updateDataWaiters(getUserId(EntryUserId), name, datebday, phone, mail)
+            updateDataWaiters(userId, name, datebday, phone, mail)
         window.destroy()
         mainApp.mainApp(getUserId(EntryUserId))
 
+    userid_label = Label(window, text='Id of user', font=label_font, **base_padding)
+    userid_label['background'] = 'white'
+    userid_label.pack()
+
+    # поле ввода имени
+    userid_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
+    userid_entry.pack()
 
     username_label = Label(window, text='Name', font=label_font, **base_padding)
     username_label['background'] = 'white'

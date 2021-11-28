@@ -198,7 +198,7 @@ def updateDataCooks(idUser, name, dateofbirth, newPhoneNumber, newMail):
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
 
-    cursor.execute(f"UPDATE Cooks SET Name = '{name}', DateOfBirth = '{dateofbirth}', PhoneNumber = '{newPhoneNumber}'"
+    cursor.execute(f"UPDATE Cooks SET  Name = '{name}', DateOfBirth = '{dateofbirth}', PhoneNumber = '{newPhoneNumber}'"
                    f", Mail = '{newMail}' where IdUser = '{idUser}' ")
 
     connection_to_db.commit()
@@ -238,7 +238,17 @@ def getOrderId(idOrder):
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
     cursor.execute(f"SELECT WorkOrder.IdOrder from WorkOrder where WorkOrder.IdOrder ='{idOrder}'")
-    ifIdOrder = cursor.fetchone().IdOrder
+
+    if (cursor.fetchone() == None):
+        connection_to_db.close()
+        return False
+    else:
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
+        cursor.execute(f"SELECT WorkOrder.IdOrder from WorkOrder where WorkOrder.IdOrder ='{idOrder}'")
+
+        ifIdOrder = cursor.fetchone().IdOrder
     connection_to_db.close()
 
     return ifIdOrder
@@ -426,5 +436,52 @@ def setDishOrderStatus(idOrderDescription, status):
 
     cursor.execute(
         f"UPDATE OrderDescription SET status = '{status}' where IdOrderDescription = '{idOrderDescription}' ")
+
+    connection_to_db.commit()
+
+def getAmountOfProduct(idProductDescription):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select ProductDescription.AmountOfProductInGm from ProductDescription where ProductDescription.IdProductDescription = '{idProductDescription}'")
+
+    ifIdDish = cursor.fetchone()
+    if (ifIdDish == None):
+        connection_to_db.close()
+        return False
+    else:
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
+
+        cursor.execute(
+            f"Select ProductDescription.AmountOfProductInGm from ProductDescription where ProductDescription.IdProductDescription = '{idProductDescription}'")
+        ifIdDish = cursor.fetchone().AmountOfProductInGm
+
+    return ifIdDish
+
+
+def addAmountOfProduct(idProductDescription, amount):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Update ProductDescription Set ProductDescription.AmountOfProductInGm = '{amount}' where ProductDescription.IdProductDescription = '{idProductDescription}'")
+
+    connection_to_db.commit()
+
+def getTotalSum(idOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"UPDATE WorkOrder SET TotalPrice = ((Select SUM(Menu.Price*AmountOfDish) from Menu join OrderDescription on"
+        f" OrderDescription.IdDish = Menu.IdDish join WorkOrder on WorkOrder.IdOrder = OrderDescription.OrderId where"
+        f" WorkOrder.IdOrder = '{idOrder}')) where WorkoRder.IdOrder = '{idOrder}'"
+)
 
     connection_to_db.commit()

@@ -32,6 +32,8 @@ def orderChoose(EntryUserId):
     def clicked():
         idOrder = orderid_entry.get()
         window.destroy()
+        if (getOrderId(idOrder) == False):
+            mainApp.mainApp(EntryUserId)
         order.order(getUserId(tired), getOrderId(idOrder))
         print(idOrder, "  eto order")
 
