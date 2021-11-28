@@ -68,7 +68,7 @@ def addWaiter(EntryUserId):
     password_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     password_entry.grid(column=4, row=6)
 
-    idwaiter_label = Label(window, text='Id of cook', font=label_font, **base_padding)
+    idwaiter_label = Label(window, text='Id of waiter', font=label_font, **base_padding)
     idwaiter_label['background'] = 'white'
     idwaiter_label.grid(column=4, row=7)
 

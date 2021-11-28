@@ -15,12 +15,13 @@ import setCookActivity
 import setWaiterActivity
 import changeDish
 import addDishInMenu
+import deleteDish
 
 
 def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('370x400')
+    window.geometry('400x400')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
@@ -29,10 +30,12 @@ def mainApp(entryUserId):
 
     font_header = ('Times New Roman', 15, 'bold')
     font_entry = ('Times New Roman', 12)
-    label_font = ('Times New Roman', 11)
+    label_font = ('Times New Roman', 11, 'bold')
     button_font = ('Times New Roman', 10)
     base_padding = {'padx': 10, 'pady': 8}
     header_padding = {'padx': 10, 'pady': 12}
+
+
 
     # def cookChosen(event):
     #   lbl = Label(window, text=comboCooks.get())
@@ -97,6 +100,9 @@ def mainApp(entryUserId):
             creds_label = Label(window, text='Welcome, Director!', font=font_header, justify=CENTER, **header_padding,
                                 background="light pink", foreground="dark blue")
             creds_label.grid(column=2, row=2)
+            low_label = Label(window, text='---', font=font_header,  **header_padding,
+                                background="light pink", foreground="dark blue")
+            low_label.grid(column=2, row=9)
         return directorMode
 
     # comboCooks = Combobox(window)
@@ -165,6 +171,10 @@ def mainApp(entryUserId):
         window.destroy()
         addDishInMenu.addDishInMenu(getUserId(tired))
 
+    def clickedDeleteDish():
+        window.destroy()
+        deleteDish.deleteDish(getUserId(tired))
+
 
     directorMode = checkForDirector(entryUserId)
 
@@ -172,26 +182,42 @@ def mainApp(entryUserId):
     print(directorMode, '    eto mode')
 
     if (directorMode == TRUE):
-        change_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='blue')
-        change_data_btn.grid(column=3, row=3)
+        cook_label = Label(window, text='Cooks block', font=label_font, justify=LEFT, **header_padding,
+                            background="light pink", foreground="dark red")
+        cook_label.grid(column=1, row=3)
+
+        waiter_label = Label(window, text='Waiters block', font=label_font, justify=RIGHT, **header_padding,
+                            background="light pink", foreground="dark red")
+        waiter_label.grid(column=3, row=3)
+
+        waiter_label = Label(window, text='Menu block', font=label_font, justify=CENTER, **header_padding,
+                             background="light pink", foreground="dark red")
+        waiter_label.grid(column=2, row=3)
+
+        change1_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font, foreground='blue')
+        change1_data_btn.grid(column=3, row=6)
+
+        change2_data_btn = Button(window, text='Change data', command=clickedChangeData, font=button_font,
+                                  foreground='blue')
+        change2_data_btn.grid(column=1, row=6)
 
         addcook_btn = Button(window, text='Add cook', command=clickedAddCook, font=button_font, foreground='blue')
-        addcook_btn.grid(column=2, row=4)
+        addcook_btn.grid(column=1, row=4)
 
         menu_btn = Button(window, text='Check menu', command=clickedMenu, font=button_font, foreground='blue')
-        menu_btn.grid(column=2, row=3)
+        menu_btn.grid(column=2, row=8)
 
         order_btn = Button(window, text='Check order', command=clickedOrderChoose, font=button_font, foreground='blue')
-        order_btn.grid(column=1, row=4)
+        order_btn.grid(column=2, row=4)
 
         lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
-        lo_btn.grid(column=1, row=3)
+        lo_btn.grid(column=2, row=10)
 
         addwaiter_btn = Button(window, text='Add waiter', command=clickedAddWaiter, font=button_font, foreground='blue')
         addwaiter_btn.grid(column=3, row=4)
 
         setcookstatus_btn = Button(window, text='SetCookStatus', command=clickedSetCookActivity, font=button_font, foreground='blue')
-        setcookstatus_btn.grid(column=2, row=5)
+        setcookstatus_btn.grid(column=1, row=5)
 
         setwaiter_btn = Button(window, text='SetWaiterStatus', command=clickedSetWaiterActivity, font=button_font,
                                    foreground='blue')
@@ -199,12 +225,15 @@ def mainApp(entryUserId):
 
         updatedish_btn = Button(window, text='Update dish', command=clickedUpdateDish, font=button_font,
                                    foreground='blue')
-        updatedish_btn.grid(column=1, row=6)
+        updatedish_btn.grid(column=2, row=7)
 
         adddish_btn = Button(window, text='Add dish', command=clickedAddDishInMenu, font=button_font,
                                 foreground='blue')
-        adddish_btn.grid(column=1, row=5)
+        adddish_btn.grid(column=2, row=5)
 
+        deletedish_btn = Button(window, text='Delete dish', command=clickedDeleteDish, font=button_font,
+                             foreground='blue')
+        deletedish_btn.grid(column=2, row=6)
 
 
     if (directorMode == FALSE):

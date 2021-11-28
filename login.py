@@ -31,7 +31,7 @@ def logInForm():
         username = username_entry.get()
         password = password_entry.get()
 
-        if getLogin(username) and (getPassword(password)) and (getUserIdWithLogin(username) == getUserIdWithLogin(password)):
+        if getLogin(username) and (getPassword(username, password)):
             window.destroy()
             mainApp(getUserIdWithLogin(username))
         else:
