@@ -201,7 +201,7 @@ Select * FROM POPULAR_PRODUCTS;
 --2. Вывод названий самых популярных блюд
 GO
 Alter View POPULAR_DISHES(Name, Popularnost) as
-select top 2  Name, SUM(OrderDescription.AmountOfDish)
+select top 10  Name, SUM(OrderDescription.AmountOfDish)
   from OrderDescription, 
 Menu where Menu.IdDish = OrderDescription.IdDish
 Group by Name

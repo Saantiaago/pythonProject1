@@ -21,6 +21,10 @@ import setDishOrderStatuss
 import addAmountProduct
 import addProduct
 import showTotalSum
+import popularDishes
+import popularProducts
+import allWorkers
+import changeProduct
 
 def mainApp(entryUserId):
     window = Tk()
@@ -213,6 +217,23 @@ def mainApp(entryUserId):
         window.destroy()
         showTotalSum.showTotalSum(getUserId(tired), res)
 
+    def clickedPopularDushes():
+        window.destroy()
+        popularDishes.popularDishes(getUserId(tired))
+
+    def clickedPopularProducts():
+        window.destroy()
+        popularProducts.popularProducts(getUserId(tired))
+
+    def clickedAllWorkers():
+        window.destroy()
+        allWorkers.allWorker(getUserId(tired))
+
+    def clickedChangeProduct():
+        window.destroy()
+        changeProduct.changeProduct(getUserId(tired))
+
+
     directorMode = checkForDirector(entryUserId)
 
     print(entryUserId, '    eto id')
@@ -295,6 +316,30 @@ def mainApp(entryUserId):
 
         period_btn = Button(window, text='get total period sum', command=clickedGetPeriodSum, font=button_font, foreground='blue')
         period_btn.grid(column=2, row=17)
+
+        views_label = Label(window, text='Views block', font=label_font, justify=RIGHT, **header_padding,
+                             background="light pink", foreground="dark red")
+        views_label.grid(column=3, row=7)
+
+        views_label = Label(window, text='Others block', font=label_font, justify=RIGHT, **header_padding,
+                             background="light pink", foreground="dark red")
+        views_label.grid(column=1, row=7)
+
+        popdish_btn = Button(window, text='All workers', command=clickedAllWorkers, font=button_font,
+                             foreground='blue')
+        popdish_btn.grid(column=1, row=8)
+
+        popdish_btn = Button(window, text='Update product', command=clickedChangeProduct, font=button_font,
+                             foreground='blue')
+        popdish_btn.grid(column=1, row=9)
+
+        popdish_btn = Button(window, text='Pop dishes', command=clickedPopularDushes, font=button_font,
+                            foreground='blue')
+        popdish_btn.grid(column=3, row=8)
+
+        popprod_btn = Button(window, text='Pop prod', command=clickedPopularProducts, font=button_font,
+                             foreground='blue')
+        popprod_btn.grid(column=3, row=9)
 
 
     if (directorMode == FALSE):

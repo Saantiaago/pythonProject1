@@ -551,4 +551,79 @@ def getPeriodSum(maxDate, minDate):
 
     return ifIdDish
 
+def getPopularDishes():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
 
+    cursor.execute(f"select top 10  Name, SUM(OrderDescription.AmountOfDish) from OrderDescription,  Menu where Menu.IdDish = OrderDescription.IdDish Group by Name Order by SUM(OrderDescription.AmountOfDish) desc")
+
+    popProd = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        popProd.append(row)
+    connection_to_db.close()
+    return popProd
+
+def getPopularProducts():
+    connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(f"Select top 10 Name, SUM(ProductDescription.AmountOfProductInGm) from productList,  ProductDescription where ProductDescription.IdProduct = ProductList.IdProduct Group by Name Order by SUM(ProductDescription.AmountOfProductInGm) desc")
+
+    popProd = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        popProd.append(row)
+    connection_to_db.close()
+    return popProd
+
+def getAllWorkers():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"(Select Waiters.Name from Waiters) Union Select Cooks.Name from Cooks")
+
+    popProd = []
+    while 1:
+        row = cursor.fetchone()
+        if not row:
+            break
+        popProd.append(row)
+    connection_to_db.close()
+    return popProd
+
+def getAmountWorkers():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Waiters.Name from Waiters Union Select Cooks.Name from Cooks")
+    amount = 0
+    popProd = []
+    while 1:
+        amount += 1
+        row = cursor.fetchone()
+        if not row:
+            break
+        popProd.append(row)
+    connection_to_db.close()
+    return amount
+
+def updateProductDescription(Name, newName, Description):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Update ProductList Set Name = '{newName}', Description = '{Description}' Where Name = '{Name}'")
+
+    connection_to_db.commit()
