@@ -32,6 +32,9 @@ def addDishInOrder(EntryUserId):
         dishName = dish_entry.get()
         idDish = getIdDishWithName(dishName)
         status = status_entry.get()
+        if (idDish == False):
+            window.destroy()
+            mainApp.mainApp(getUserId(tired))
         insertDishInOrder(idOrderDescription, orderId, amountOfDish, status, idDish, idCook)
         window.destroy()
         mainApp.mainApp(getUserId(tired))

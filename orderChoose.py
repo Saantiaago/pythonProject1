@@ -10,7 +10,7 @@ from queries import *
 def orderChoose(EntryUserId):
     window = Tk()
     window.title('choose order')
-    window.geometry('200x25')
+    window.geometry('300x100')
     window.resizable(False, False)
     window['background'] = 'white'
 
@@ -37,6 +37,10 @@ def orderChoose(EntryUserId):
         order.order(getUserId(tired), getOrderId(idOrder))
         print(idOrder, "  eto order")
 
+    def clickedBack():
+        window.destroy()
+        mainApp.mainApp(getUserId(tired))
+
     #order = getOrder(idOrder)
 
     orderid_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
@@ -44,6 +48,9 @@ def orderChoose(EntryUserId):
 
     send_btn = Button(window, text='Enter', command=clicked, font=button_font, foreground='blue')
     send_btn.grid(column=2, row=1)
+
+    send_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='blue')
+    send_btn.grid(column=3, row=1)
 
    # def clickedBack():
     #        window.destroy()

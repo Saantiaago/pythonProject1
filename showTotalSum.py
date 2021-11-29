@@ -7,10 +7,10 @@ import mainApp
 from queries import *
 
 
-def order(EntryUserId, idOrder):
+def showTotalSum(EntryUserId, res):
     window = Tk()
-    window.title('Order')
-    window.geometry('900x500')
+    window.title('dishRestriction')
+    window.geometry('170x500')
     window.resizable(False, False)
     window['background'] = 'white'
 
@@ -23,18 +23,15 @@ def order(EntryUserId, idOrder):
 
     tired = EntryUserId
 
-    order = getOrder(idOrder)
+    description_label = Label(window, text=res, font=label_font, **base_padding)
+    description_label['background'] = 'white'
+    description_label.pack()
 
     def clickedBack():
-            window.destroy()
-            mainApp.mainApp(getUserId(tired))
+        window.destroy()
+        mainApp.mainApp(getUserId(EntryUserId))
 
     menu_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='green')
-    menu_btn.grid(column=4, row=3)
-    rowCount = 5
-    for i in range(getAmountOfOrder(idOrder)):
-        main_label = Label(window, text=order[i], font=font_header, justify=CENTER, **header_padding)
-        main_label.grid(column=10, row=rowCount)
-        rowCount += 1
+    menu_btn.pack()
 
     window.mainloop()

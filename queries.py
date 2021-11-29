@@ -227,10 +227,42 @@ def getOrder(idOrder):
         f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
         f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
         f"Menu.IdDish and WorkOrder.IdOrder ='{idOrder}'")
-    ifOrder = cursor.fetchone()
+
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone()
+
+        if not row:
+            break
+        orderList.append(row)
     connection_to_db.close()
 
-    return ifOrder
+    return orderList
+
+def getAmountOfOrder(idOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder ='{idOrder}'")
+
+    amount = 0
+    orderList = []
+    while 1:
+        row = cursor.fetchone()
+        amount += 1
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+    return amount
 
 
 def getOrderId(idOrder):
@@ -270,10 +302,21 @@ def getIdDishWithName(Name):
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
     cursor.execute(f"SELECT Menu.IdDish from Menu where Menu.Name ='{Name}'")
-    ifIdDish = cursor.fetchone().IdDish
-    connection_to_db.close()
+    ifIdDish = cursor.fetchone()
+    if (ifIdDish == None):
+        connection_to_db.close()
+        return False
+    else:
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
 
+        cursor.execute(
+            f"SELECT Menu.IdDish from Menu where Menu.Name ='{Name}'")
+        ifIdDish = cursor.fetchone().IdDish
+    connection_to_db.close()
     return ifIdDish
+
 
 
 def updateDishStatus(Name, status):
@@ -485,3 +528,27 @@ def getTotalSum(idOrder):
 )
 
     connection_to_db.commit()
+
+
+def addProductInListt(IdProduct, Name, Description):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"INSERT INTO ProductList (IdProduct, Name, Description) VALUES ('{IdProduct}', '{Name}', '{Description}')")
+
+    connection_to_db.commit()
+
+
+def getPeriodSum(maxDate, minDate):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    cursor.execute(f"Select Sum(WorkOrder.TotalPrice) from WorkOrder  where WorkOrder.Date < '{maxDate}' and WorkOrder.Date > '{minDate}'")
+    ifIdDish = cursor.fetchone()
+    connection_to_db.close()
+
+    return ifIdDish
+
+

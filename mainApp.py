@@ -19,11 +19,13 @@ import deleteDish
 import productList
 import setDishOrderStatuss
 import addAmountProduct
+import addProduct
+import showTotalSum
 
 def mainApp(entryUserId):
     window = Tk()
     window.title("Restaurant Database")
-    window.geometry('600x600')
+    window.geometry('420x600')
     window.resizable(False, False)
     window['background'] = 'light pink'
     flagId = FALSE
@@ -104,8 +106,11 @@ def mainApp(entryUserId):
             creds_label.grid(column=2, row=2)
             low_label = Label(window, text='---', font=font_header,  **header_padding,
                                 background="light pink", foreground="dark blue")
-            low_label.grid(column=2, row=10)
+            low_label.grid(column=2, row=19)
         return directorMode
+
+    def getTotalPeriodSum(minDate, maxDate):
+        getPeriodSum(maxDate, minDate)
 
     # comboCooks = Combobox(window)
     # comboCooks['state'] = 'readonly'
@@ -127,9 +132,6 @@ def mainApp(entryUserId):
 
     def getTotalPrice(idOrder):
         getTotalSum(idOrder)
-
-
-
 
     def clickedMenu():
         window.destroy()
@@ -199,6 +201,18 @@ def mainApp(entryUserId):
         idOrder = IdOrder_entry.get()
         getTotalPrice(idOrder)
 
+    def clickedAddProduct():
+        window.destroy()
+        addProduct.addProductInList(getUserId(tired))
+
+    def clickedGetPeriodSum():
+        minDate = minday_entry.get()
+        maxDate = maxday_entry.get()
+        res = getPeriodSum(maxDate, minDate)
+        print(res)
+        window.destroy()
+        showTotalSum.showTotalSum(getUserId(tired), res)
+
     directorMode = checkForDirector(entryUserId)
 
     print(entryUserId, '    eto id')
@@ -234,7 +248,7 @@ def mainApp(entryUserId):
         order_btn.grid(column=2, row=4)
 
         lo_btn = Button(window, text='Log out', command=clickedLogout, font=button_font, foreground='blue')
-        lo_btn.grid(column=2, row=11)
+        lo_btn.grid(column=2, row=20)
 
         addwaiter_btn = Button(window, text='Add waiter', command=clickedAddWaiter, font=button_font, foreground='blue')
         addwaiter_btn.grid(column=3, row=4)
@@ -261,6 +275,26 @@ def mainApp(entryUserId):
         deletedish_btn = Button(window, text='Check products', command=clickedProduct, font=button_font,
                                 foreground='blue')
         deletedish_btn.grid(column=2, row=9)
+
+        order_btn = Button(window, text='Add product', command=clickedAddProduct, font=button_font, foreground='blue')
+        order_btn.grid(column=2, row=10)
+
+        maxday_label = Label(window, text='Max day', font=label_font, justify=RIGHT, **header_padding,
+                             background="light pink", foreground="dark red")
+        maxday_label.grid(column=2, row=15)
+
+        maxday_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
+        maxday_entry.grid(column=2, row=16)
+
+        minday_label = Label(window, text='Min day', font=label_font, justify=RIGHT, **header_padding,
+                             background="light pink", foreground="dark red")
+        minday_label.grid(column=2, row=13)
+
+        minday_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
+        minday_entry.grid(column=2, row=14)
+
+        period_btn = Button(window, text='get total period sum', command=clickedGetPeriodSum, font=button_font, foreground='blue')
+        period_btn.grid(column=2, row=17)
 
 
     if (directorMode == FALSE):
@@ -310,6 +344,8 @@ def mainApp(entryUserId):
 
             IdOrder_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
             IdOrder_entry.grid(column=3, row=5)
+
+
 
             entrr_btn = Button(window, text='Enter', command=clickedGetTotal, font=button_font, foreground='green')
             entrr_btn.grid(column=3, row=6)

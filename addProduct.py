@@ -7,7 +7,7 @@ import mainApp
 from queries import *
 
 
-def addDishInMenu(EntryUserId):
+def addProductInList(EntryUserId):
     window = Tk()
     window.title('dishRestriction')
     window.geometry('170x500')
@@ -25,17 +25,15 @@ def addDishInMenu(EntryUserId):
 
 
     def clickedEnter():
-        idDish = iddish_entry.get()
+        idProduct = iddish_entry.get()
         name = name_entry.get()
-        status = status_entry.get()
         description = description_entry.get()
-        price = price_entry.get()
 
-        setDishInMenu(idDish, name, description, price, status)
+        addProductInListt(idProduct, name, description)
         window.destroy()
         mainApp.mainApp(getUserId(tired))
 
-    iddish_label = Label(window, text='Id of dish', font=label_font, **base_padding)
+    iddish_label = Label(window, text='Id of Product', font=label_font, **base_padding)
     iddish_label['background'] = 'white'
     iddish_label.pack()
 
@@ -59,21 +57,6 @@ def addDishInMenu(EntryUserId):
     description_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     description_entry.pack()
 
-    price_label = Label(window, text='Price', font=label_font, **base_padding)
-    price_label['background'] = 'white'
-    price_label.pack()
-
-    # поле ввода price
-    price_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    price_entry.pack()
-
-    status_label = Label(window, text='Status', font=label_font, **base_padding)
-    status_label['background'] = 'white'
-    status_label.pack()
-
-    # поле ввода status
-    status_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    status_entry.pack()
 
     # кнопка отправки формы
     send_btn = Button(window, text='Enter', command=clickedEnter, font=button_font, foreground='green')
