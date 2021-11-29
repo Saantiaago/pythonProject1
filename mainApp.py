@@ -25,6 +25,7 @@ import popularDishes
 import popularProducts
 import allWorkers
 import changeProduct
+import allOrders
 
 def mainApp(entryUserId):
     window = Tk()
@@ -233,6 +234,10 @@ def mainApp(entryUserId):
         window.destroy()
         changeProduct.changeProduct(getUserId(tired))
 
+    def clickedAllOrders():
+        window.destroy()
+        allOrders.allOrders(getUserId(tired))
+
 
     directorMode = checkForDirector(entryUserId)
 
@@ -332,6 +337,10 @@ def mainApp(entryUserId):
         popdish_btn = Button(window, text='Update product', command=clickedChangeProduct, font=button_font,
                              foreground='blue')
         popdish_btn.grid(column=1, row=9)
+
+        popdish_btn = Button(window, text='All orders', command=clickedAllOrders, font=button_font,
+                             foreground='blue')
+        popdish_btn.grid(column=1, row=10)
 
         popdish_btn = Button(window, text='Pop dishes', command=clickedPopularDushes, font=button_font,
                             foreground='blue')

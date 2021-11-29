@@ -50,6 +50,19 @@ def getLogin(login):
 
     return ifLogin
 
+def getOnlyPassword(login):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    cursor.execute(f"SELECT * from Users where login ='{login}'")
+
+    ifPass = str.encode(cursor.fetchone().password.decode())
+    password = bcrypt.hashpw(str.encode(ifPass), key)
+    print(password, ' ')
+    connection_to_db.close()
+
+    return ifPass
+
 
 def getPassword(login, password):
     connection_to_db = pyodbc.connect(
@@ -63,6 +76,8 @@ def getPassword(login, password):
     print(ifPass, '   ', password)
 
     if ifPass == password:
+
+        print(ifPass, '   ', password.decode())
         return ifPass
 
     connection_to_db.close()
@@ -78,6 +93,13 @@ def changePassword(login, password):
     cursor.execute(f"UPDATE Users Set password = '{password.decode()}' where login ='{login}'")
     connection_to_db.commit()
 
+def changeNewPassword(login, newPassword):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+    newPassword = bcrypt.hashpw(str.encode(newPassword), key)
+    cursor.execute(f"UPDATE Users Set password = '{newPassword.decode()}' where login ='{login}'")
+    connection_to_db.commit()
 
 def getUserIdWithLogin(login):
     connection_to_db = pyodbc.connect(
@@ -239,6 +261,46 @@ def getOrder(idOrder):
     connection_to_db.close()
 
     return orderList
+
+def getAllOrder():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select * from WorkOrder")
+
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone()
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+    return orderList
+
+def getAmountAllOrder():
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select * from WorkOrder")
+
+    amount = 0
+    orderList = []
+    while 1:
+        row = cursor.fetchone()
+        amount += 1
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+    return amount
 
 def getAmountOfOrder(idOrder):
     connection_to_db = pyodbc.connect(
@@ -627,3 +689,4 @@ def updateProductDescription(Name, newName, Description):
         f"Update ProductList Set Name = '{newName}', Description = '{Description}' Where Name = '{Name}'")
 
     connection_to_db.commit()
+

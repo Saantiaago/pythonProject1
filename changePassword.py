@@ -5,10 +5,10 @@ from pyodbc import Row
 
 from mainApp import *
 from queries import *
-import changePassword
-import forgotPassword
+import setPassword
 
-def logInForm():
+
+def changePassword(EntryUserId):
     window = Tk()
     window.title('Auth')
     window.geometry('350x350')
@@ -22,7 +22,7 @@ def logInForm():
     base_padding = {'padx': 10, 'pady': 8}
     header_padding = {'padx': 10, 'pady': 12}
 
-    main_label = Label(window, text='Restaurant Database', font=font_header, justify=CENTER, **header_padding)
+    main_label = Label(window, text='Setting new password', font=font_header, justify=CENTER, **header_padding)
     main_label['background'] = 'white'
     main_label.pack()
     username_label = Label(window, text='Name', font=label_font, **base_padding)
@@ -35,7 +35,7 @@ def logInForm():
 
         if getLogin(username) and (getPassword(username, password)):
             window.destroy()
-            mainApp(getUserIdWithLogin(username))
+            setPassword.setPassword(username, getUserId(EntryUserId))
         else:
             wrong_creds_label = Label(window, text='Wrong creds', font=font_header, justify=CENTER, **header_padding)
             wrong_creds_label['background'] = 'white'
@@ -43,36 +43,20 @@ def logInForm():
         print(username, password)
         print(getLogin(username))
 
-    def clickedChangePassword():
-        username = username_entry.get()
-        window.destroy()
-        changePassword.changePassword(getUserIdWithLogin(username))
-
-    def clickedForgot():
-        username = username_entry.get()
-        window.destroy()
-        forgotPassword.forgotPassword(getUserIdWithLogin(username), username)
-
-    # РїРѕР»Рµ РІРІРѕРґР° РёРјРµРЅРё
+    # поле ввода имени
     username_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     username_entry.pack()
 
-    # РјРµС‚РєР° РґР»СЏ РїРѕР»СЏ РІРІРѕРґР° РїР°СЂРѕР»СЏ
+    # метка для поля ввода пароля
     password_label = Label(window, text='Password', font=label_font, **base_padding)
     password_label['background'] = 'white'
     password_label.pack()
 
-    # РїРѕР»Рµ РІРІРѕРґР° РїР°СЂРѕР»СЏ
+    # поле ввода пароля
     password_entry = Entry(window, bg='#fff', fg='#444', show='*', font=font_entry)
     password_entry.pack()
-    # РєРЅРѕРїРєР° РѕС‚РїСЂР°РІРєРё С„РѕСЂРјС‹
+    # кнопка отправки формы
     send_btn = Button(window, text='Enter', command=clicked, font=button_font, foreground='green')
     send_btn.pack(**base_padding)
-
-    change_btn = Button(window, text='Change', command=clickedChangePassword, font=button_font, foreground='green')
-    change_btn.pack(**base_padding)
-
-    forgot_btn = Button(window, text='Forgot', command=clickedForgot, font=button_font, foreground='green')
-    forgot_btn.pack(**base_padding)
 
     window.mainloop()
