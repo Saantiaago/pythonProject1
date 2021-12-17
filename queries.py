@@ -282,6 +282,113 @@ def getOrder(IdOrder):
 
     return orderList
 
+def getOrderIdOrder(IdOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.IdOrder, WorkOrder.OrderNumber, WorkOrder.Date, WorkOrder.IdWaiter, WorkOrder.TotalPrice, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder = '{IdOrder}' ")
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone().IdOrder
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+def getOrderOrderNumber(IdOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder = '{IdOrder}' ")
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone().OrderNumber
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+def getOrderDate(IdOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder = '{IdOrder}' ")
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone().Date
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+def getOrderIdWaiter(IdOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder = '{IdOrder}' ")
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone().IdWaiter
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+def getOrderTotalPrice(IdOrder):
+    connection_to_db = pyodbc.connect(
+        r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+    cursor = connection_to_db.cursor()
+
+    cursor.execute(
+        f"Select Distinct WorkOrder.*, Menu.Name as Dishes, Menu.Price as Price, OrderDescription.AmountOfDish "
+        f"as Amount from WorkOrder, Waiters, ProductDescription, OrderDescription, Menu, ProductList, Cooks where "
+        f"WorkOrder.IdWaiter = Waiters.IdWaiter and WorkOrder.IdOrder = ProductDescription.OrderId and ProductDescription.IdProduct "
+        f"= ProductList.IdProduct and WorkOrder.IdOrder = OrderDescription.OrderId and OrderDescription.IdDish = "
+        f"Menu.IdDish and WorkOrder.IdOrder = '{IdOrder}' ")
+
+    orderList = []
+    while 1:
+        row = cursor.fetchone().TotalPrice
+
+        if not row:
+            break
+        orderList.append(row)
+    connection_to_db.close()
+
+
+
 def getAllOrder():
     connection_to_db = pyodbc.connect(
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
@@ -426,28 +533,53 @@ def registerCook(IdUser, login, password, IdCook, name, dateOfBirth, phoneNumber
     connection_to_db = pyodbc.connect(
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
-    newpassword = bcrypt.hashpw(str.encode(password), key)
-    cursor.execute(
-        f"INSERT INTO Users (IdUser, login, password) VALUES ((select Max(IdUser) from Users)+1, '{login}', '{password}') "
-        f"INSERT INTO Cooks(IdCook, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
-        f"VALUES ((select Max(IdCook) from Cooks)+1, (select Max(IdUser) from Users), '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}')"
-        f"UPDATE Users Set password = '{newpassword.decode()}' where login ='{login}'")
 
-    connection_to_db.commit()
+
+    cursor.execute(f"Select login from Users where login = '{login}'")
+    ifIdDish = cursor.fetchone()
+    if (ifIdDish == None):
+        connection_to_db.close()
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
+        newpassword = bcrypt.hashpw(str.encode(password), key)
+        cursor.execute(
+            f"INSERT INTO Users (IdUser, login, password) VALUES ((select Max(IdUser) from Users)+1, '{login}', '{password}') "
+            f"INSERT INTO Cooks(IdCook, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
+            f"VALUES ((select Max(IdCook) from Cooks)+1, (select Max(IdUser) from Users), '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}')"
+            f"UPDATE Users Set password = '{newpassword.decode()}' where login ='{login}'")
+
+        connection_to_db.commit()
+    else:
+        connection_to_db.close()
+        return False
 
 
 def registerWaiter(IdUser, login, password, IdCook, name, dateOfBirth, phoneNumber, mail, status):
     connection_to_db = pyodbc.connect(
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
-    newpassword = bcrypt.hashpw(str.encode(password), key)
-    cursor.execute(
-        f"INSERT INTO Users (IdUser, login, password) VALUES ((select Max(IdUser) from Users)+1, '{login}', '{password}') "
-        f"INSERT INTO Waiters(IdWaiter, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
-        f"VALUES ((select Max(IdWaiter) from Waiters)+1, (select Max(IdUser) from Users), '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}')"
-        f"UPDATE Users Set password = '{newpassword.decode()}' where login ='{login}'")
 
-    connection_to_db.commit()
+
+    cursor.execute(f"Select login from Users where login = '{login}'")
+    ifIdDish = cursor.fetchone()
+    if (ifIdDish == None):
+        connection_to_db.close()
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
+        newpassword = bcrypt.hashpw(str.encode(password), key)
+        cursor.execute(
+            f"INSERT INTO Users (IdUser, login, password) VALUES ((select Max(IdUser) from Users)+1, '{login}', '{password}') "
+            f"INSERT INTO Waiters(IdWaiter, IdUser, Name, DateOfBirth, PhoneNumber, Mail, Status) "
+            f"VALUES ((select Max(IdWaiter) from Waiters)+1, (select Max(IdUser) from Users), '{name}', '{dateOfBirth}', '{phoneNumber}', '{mail}', '{status}')"
+            f"UPDATE Users Set password = '{newpassword.decode()}' where login ='{login}'")
+
+        connection_to_db.commit()
+    else:
+        connection_to_db.close()
+        return False
+
 
 
 def setCookStatus(idUser, status):
@@ -488,19 +620,31 @@ def setDishInMenu(IdDish, Name, Description, Price, Status):
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
 
-    cursor.execute(
-        f"INSERT INTO Menu (IdDish, Name, Description, Price, Status) VALUES ('{IdDish}', '{Name}', '{Description}', '{Price}', '{Status}')")
 
-    connection_to_db.commit()
+    cursor.execute(f"Select login from Users where login = '{Name}'")
+    ifIdDish = cursor.fetchone()
+    if (ifIdDish == None):
+        connection_to_db.close()
+        connection_to_db = pyodbc.connect(
+            r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
+        cursor = connection_to_db.cursor()
+        cursor.execute(
+            f"INSERT INTO Menu (IdDish, Name, Description, Price, Status) VALUES ((select Max(IdDish) from Menu)+1, '{Name}', '{Description}', '{Price}', '{Status}')")
 
 
-def deleteDishFromMenu(idDish):
+        connection_to_db.commit()
+    else:
+        connection_to_db.close()
+        return False
+
+
+def deleteDishFromMenu(Name):
     connection_to_db = pyodbc.connect(
         r'Driver={SQL Server};Server=DESKTOP-PI2BET6;Database=rest;Trusted_Connection=yes;')
     cursor = connection_to_db.cursor()
 
     cursor.execute(
-        f"Update OrderDescription Set OrderDescription.IdDish = 100 where OrderDescription.IdDish = '{idDish}' delete from Menu where IdDish = '{idDish}'")
+        f"Update OrderDescription Set OrderDescription.IdDish = 0 where OrderDescription.IdDish = (Select IdDish from Menu where Name = '{Name}') delete from Menu where IdDish = (Select IdDish from Menu where Name = '{Name}')")
 
     connection_to_db.commit()
 
@@ -618,7 +762,7 @@ def addProductInListt(IdProduct, Name, Description):
     cursor = connection_to_db.cursor()
 
     cursor.execute(
-        f"INSERT INTO ProductList (IdProduct, Name, Description) VALUES ('{IdProduct}', '{Name}', '{Description}')")
+        f"INSERT INTO ProductList (IdProduct, Name, Description) VALUES ((select Max(IdProduct) from ProductList)+1, '{Name}', '{Description}')")
 
     connection_to_db.commit()
 

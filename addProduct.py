@@ -25,7 +25,7 @@ def addProductInList(EntryUserId):
 
 
     def clickedEnter():
-        idProduct = iddish_entry.get()
+        idProduct = 0
         name = name_entry.get()
         description = description_entry.get()
 
@@ -33,13 +33,7 @@ def addProductInList(EntryUserId):
         window.destroy()
         mainApp.mainApp(getUserId(tired))
 
-    iddish_label = Label(window, text='Id of Product', font=label_font, **base_padding)
-    iddish_label['background'] = 'white'
-    iddish_label.pack()
 
-    # поле ввода name
-    iddish_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    iddish_entry.pack()
 
     name_label = Label(window, text='Name', font=label_font, **base_padding)
     name_label['background'] = 'white'

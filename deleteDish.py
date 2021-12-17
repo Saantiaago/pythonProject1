@@ -28,7 +28,7 @@ def deleteDish(EntryUserId):
         mainApp.mainApp(getUserId(EntryUserId))
 
 
-    iddish_label = Label(window, text='Id dish', font=label_font, **base_padding)
+    iddish_label = Label(window, text='Name', font=label_font, **base_padding)
     iddish_label['background'] = 'white'
     iddish_label.pack()
 
