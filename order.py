@@ -32,7 +32,8 @@ def order(EntryUserId, idOrder):
     menu_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='green')
     menu_btn.grid(column=4, row=3)
     rowCount = 5
-    for i in range(getAmountOfOrder(idOrder)):
+
+    for i in range(getAmountOfOrder(idOrder)-1):
         main_label = Label(window, text=order[i], font=font_header, justify=CENTER, **header_padding)
         main_label.grid(column=10, row=rowCount)
         rowCount += 1

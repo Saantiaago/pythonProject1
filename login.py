@@ -72,7 +72,7 @@ def logInForm():
     change_btn = Button(window, text='Change', command=clickedChangePassword, font=button_font, foreground='green')
     change_btn.pack(**base_padding)
 
-    forgot_btn = Button(window, text='Forgot', command=clickedForgot, font=button_font, foreground='green')
-    forgot_btn.pack(**base_padding)
+    #forgot_btn = Button(window, text='Forgot', command=clickedForgot, font=button_font, foreground='green')
+    #forgot_btn.pack(**base_padding)
 
     window.mainloop()

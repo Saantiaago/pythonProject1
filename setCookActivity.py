@@ -43,7 +43,7 @@ def setCookActivity(EntryUserId):
     back_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='green')
     back_btn.grid(column=4, row=2)
 
-    iduser_label = Label(window, text='id of user', font=label_font, **base_padding)
+    iduser_label = Label(window, text='login', font=label_font, **base_padding)
     iduser_label['background'] = 'white'
     iduser_label.grid(column=4, row=4)
 

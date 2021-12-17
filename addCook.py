@@ -25,10 +25,10 @@ def addCook(EntryUserId):
 
 
     def clickedEnter():
-        idUser = iduser_entry.get()
+        idUser = 0
         login = login_entry.get()
         password = password_entry.get()
-        idCook = idcook_entry.get()
+        idCook = 0
         name = name_entry.get()
         dateOfBirth = bday_entry.get()
         phoneNumber = phone_entry.get()
@@ -44,13 +44,6 @@ def addCook(EntryUserId):
         mainApp.mainApp(getUserId(tired))
 
 
-    iduser_label = Label(window, text='Id of User', font=label_font, **base_padding, foreground='dark blue', background="light pink")
-    iduser_label['background'] = 'light pink'
-    iduser_label.grid(column=4, row=1)
-
-    # поле ввода idUser
-    iduser_entry = Entry(window, bg='#fff', fg='#444', font=font_entry, )
-    iduser_entry.grid(column=4, row=2)
 
     login_label = Label(window, text='Login of user', font=label_font, **base_padding, foreground='dark blue', background="light pink")
     login_label['background'] = 'light pink'
@@ -68,13 +61,6 @@ def addCook(EntryUserId):
     password_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     password_entry.grid(column=4, row=6)
 
-    idcook_label = Label(window, text='Id of cook', font=label_font, **base_padding, foreground='dark blue', background="light pink")
-    idcook_label['background'] = 'light pink'
-    idcook_label.grid(column=4, row=7)
-
-    # поле ввода idcook
-    idcook_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    idcook_entry.grid(column=4, row=8)
 
     name_label = Label(window, text='Name', font=label_font, **base_padding, foreground='dark blue', background="light pink")
     name_label['background'] = 'light pink'

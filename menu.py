@@ -11,7 +11,7 @@ def menu(EntryUserId):
     window = Tk()
     window.title('Menu')
     window.geometry('280x500')
-    window.resizable(False, False)
+    window.resizable(True, True)
     window['background'] = 'light pink'
 
     font_header = ('Times New Roman', 10, 'bold')

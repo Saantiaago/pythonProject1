@@ -48,7 +48,7 @@ def addAmountProduct(EntryUserId):
     back_btn = Button(window, text='Back', command=clickedBack, font=button_font, foreground='red')
     back_btn.grid(column=4, row=10)
 
-    iduser_label = Label(window, text='Id of product description', font=label_font, **base_padding)
+    iduser_label = Label(window, text='Name', font=label_font, **base_padding)
     iduser_label['background'] = 'white'
     iduser_label.grid(column=4, row=4)
 

@@ -33,7 +33,7 @@ def changeData(EntryUserId, flagId):
         window.destroy()
         mainApp.mainApp(getUserId(EntryUserId))
 
-    userid_label = Label(window, text='Id of user', font=label_font, **base_padding)
+    userid_label = Label(window, text='Login of user', font=label_font, **base_padding)
     userid_label['background'] = 'white'
     userid_label.pack()
 

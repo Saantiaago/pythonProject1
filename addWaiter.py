@@ -25,10 +25,10 @@ def addWaiter(EntryUserId):
 
 
     def clickedEnter():
-        idUser = iduser_entry.get()
+        idUser = 0
         login = login_entry.get()
         password = password_entry.get()
-        idWaiter = idwaiter_entry.get()
+        idWaiter = 0
         name = name_entry.get()
         dateOfBirth = bday_entry.get()
         phoneNumber = phone_entry.get()
@@ -44,13 +44,7 @@ def addWaiter(EntryUserId):
         mainApp.mainApp(getUserId(tired))
 
 
-    iduser_label = Label(window, text='Id of User', font=label_font, **base_padding)
-    iduser_label['background'] = 'white'
-    iduser_label.grid(column=4, row=1)
 
-    # поле ввода idUser
-    iduser_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    iduser_entry.grid(column=4, row=2)
 
     login_label = Label(window, text='Login of user', font=label_font, **base_padding)
     login_label['background'] = 'white'
@@ -72,13 +66,7 @@ def addWaiter(EntryUserId):
     idwaiter_label['background'] = 'white'
     idwaiter_label.grid(column=4, row=7)
 
-    # поле ввода idcook
-    idwaiter_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    idwaiter_entry.grid(column=4, row=8)
 
-    name_label = Label(window, text='Name', font=label_font, **base_padding)
-    name_label['background'] = 'white'
-    name_label.grid(column=4, row=9)
 
     # поле ввода имени
     name_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)

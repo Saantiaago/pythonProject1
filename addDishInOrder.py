@@ -25,7 +25,7 @@ def addDishInOrder(EntryUserId):
 
 
     def clickedEnter():
-        idOrderDescription = orderdescription_entry.get()
+        idOrderDescription = 0
         orderId = orderid_entry.get()
         amountOfDish = amountofdish_entry.get()
         idCook = idcook_entry.get()
@@ -43,15 +43,7 @@ def addDishInOrder(EntryUserId):
         window.destroy()
         mainApp.mainApp(getUserId(tired))
 
-    idorderdesc_label = Label(window, text='Id of Order Description', font=label_font, **base_padding)
-    idorderdesc_label['background'] = 'white'
-    idorderdesc_label.grid(column=4, row=1)
-
-    # поле ввода idOrderDDesc
-    orderdescription_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
-    orderdescription_entry.grid(column=4, row=2)
-
-    orderid_label = Label(window, text='Id of Order', font=label_font, **base_padding)
+    orderid_label = Label(window, text='Order number', font=label_font, **base_padding)
     orderid_label['background'] = 'white'
     orderid_label.grid(column=4, row=3)
 
@@ -67,7 +59,7 @@ def addDishInOrder(EntryUserId):
     amountofdish_entry = Entry(window, bg='#fff', fg='#444', font=font_entry)
     amountofdish_entry.grid(column=4, row=6)
 
-    idcook_label = Label(window, text='Id of cook', font=label_font, **base_padding)
+    idcook_label = Label(window, text='Login of cook', font=label_font, **base_padding)
     idcook_label['background'] = 'white'
     idcook_label.grid(column=4, row=7)
 
